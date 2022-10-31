@@ -5,6 +5,7 @@ import Navigation from "./components/Navigation"
 import Footer from "./components/Footer"
 import Home from "./pages/Home/Home"
 import Packages from "./pages/Packages/Packages";
+import Login from "./pages/Login/Login"
 
 function App() {
   return (
@@ -12,11 +13,11 @@ function App() {
       <Navigation />
       <Routes>
         <Route exact path='/' element={<Home />}/>
-        {/* <Route path='/packages' element={<Packages />} /> */}
         <Route path="/packages">
           <Route path=":packageId" element={<Packages/>}>
           </Route>
         </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
     </Router>

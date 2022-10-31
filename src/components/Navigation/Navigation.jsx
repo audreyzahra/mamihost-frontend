@@ -38,7 +38,7 @@ const Login = () => {
   return (
     <div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
       <Link
-        to='#'
+        to='/login'
         className='bg-teal-600 px-7 py-2 whitespace-nowrap text-nav-1 font-medium text-white hover:text-gray-900 rounded-3xl'
       >
         Login
