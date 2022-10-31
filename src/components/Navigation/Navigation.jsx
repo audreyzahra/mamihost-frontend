@@ -2,43 +2,24 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import {
-  BookmarkAltIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  CursorClickIcon,
-  MenuIcon,
-  PhoneIcon,
-  PlayIcon,
-  RefreshIcon,
-  ShieldCheckIcon,
-  SupportIcon,
-  ViewGridIcon,
-  XIcon,
-  CollectionIcon,
-} from "@heroicons/react/outline";
 
-import { ChevronDownIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 
 const hosting = [
   {
     name: "Hosting 1",
     description: "MamiHost menyediakan Hosting Paket 1",
-    href: "#hosting",
-    icon: CollectionIcon,
+    href: "#hosting"
   },
   {
     name: "Kelapa",
     description: "Kelapa mempunyai penduduk terbanyak",
-    href: "#hosting",
-    icon: CollectionIcon,
+    href: "#hosting"
   },
   {
     name: "Sabira",
     description: "Sabiran merupakan pulau yang unik",
-    href: "#hosting",
-    icon: CollectionIcon,
+    href: "#hosting"
   },
 ];
 
@@ -66,9 +47,9 @@ const Login = () => {
   );
 };
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+// function classNames(...classes) {
+//   return classes.filter(Boolean).join(" ");
+// }
 
 const Navigation = () => {
   return (
@@ -134,13 +115,13 @@ const Navigation = () => {
                   <div className='-mr-2'>
                     <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
                       <span className='sr-only'>Close menu</span>
-                      <XIcon className='h-6 w-6' aria-hidden='true' />
+                      {/* <XIcon className='h-6 w-6' aria-hidden='true' /> */}
                     </Popover.Button>
                   </div>
                 </div>
                 <div className='mt-6'>
                   <nav className='grid gap-y-6'>
-                    {hosting.map((item) => (
+                    {/* {hosting.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
@@ -154,7 +135,7 @@ const Navigation = () => {
                           {item.name}
                         </span>
                       </a>
-                    ))}
+                    ))} */}
                   </nav>
                 </div>
               </div>
