@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 const Login = () => {
     return (
         <>
-            <div className="max-h-screen flex flex-row">
-                <div className="relative flex flex-grow basis-2/3 overflow-hidden w-screen bg-cover">
-                    <img className="min-h-screen flex flex-grow" src="https://images.unsplash.com/photo-1639066648921-82d4500abf1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8" alt="" />
+            <div className="max-h-full flex flex-row">
+            <div className="relative flex flex-col basis-2/3 overflow-hidden w-screen bg-cover">
+                    <img className="flex flex-col w-full max-h-screen object-cover bg-cover" src="https://images.unsplash.com/photo-1639066648921-82d4500abf1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8" alt="" />
                 </div>
-                <div className="w-screen basis-1/3 bg-gradient-to-b from-[#2F414F] to-[#38A392] bg-cover">
+                <div className="w-full max-h-screen basis-1/3 bg-gradient-to-b from-[#2F414F] to-[#38A392] bg-cover">
                     <div className="lg:flex lg:flex-wrap g-0">
                         <div>
                             <div className="md:p-12 md:mx-6">
