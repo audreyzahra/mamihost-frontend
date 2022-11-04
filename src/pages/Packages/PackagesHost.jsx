@@ -217,7 +217,7 @@ const PackagesHost = ({ packageId }) => {
                                                 {/*header*/}
                                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                                     <h3 className="text-3xl font-semibold">
-                                                        Modal Title
+                                                        Detail Order
                                                     </h3>
                                                     <button
                                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -287,6 +287,23 @@ const PackagesHost = ({ packageId }) => {
                         )
                     })
                     }
+                </div>
+            </div>
+
+            {/* Input Docker Image */}
+            <h1 className="text-white font-bold text-xl">3. Masukkan Docker Image</h1>
+            <div className="flex w-2/3">
+                <div className="md:flex-1 rounded-lg m-5">
+                    <div className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden p-5">
+                        <form action="">
+                            <div className="h-2/3 p-3">
+                                <input type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Docker Image" />
+                            </div>
+                            <div className="h-1/3 p-3">
+                                <button type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Cek Docker Image</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </>

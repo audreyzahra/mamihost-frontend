@@ -29,3 +29,16 @@ code {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.dashboard {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Poppins', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F1F1EF;
+  background-size: 300px 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
