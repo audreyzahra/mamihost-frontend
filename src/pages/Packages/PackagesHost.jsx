@@ -1,46 +1,11 @@
-import { React, useState } from "react"
-import { useParams, Link } from "react-router-dom"
-import { CheckIcon, ExclamationIcon } from "@heroicons/react/outline"
+import { React, useState, useRef } from "react"
+import axios from "axios"
+import { Link } from "react-router-dom"
+import { API_URL } from "../../config"
+import { CheckIcon } from "@heroicons/react/outline"
 import { CheckCircleIcon, XCircleIcon, ShoppingCartIcon } from "@heroicons/react/solid"
+import { useEffect } from "react"
 
-const packages = [
-    {
-        package_id: 1,
-        name: 'Anak Host',
-        description: 'Fitur Hosting',
-        fitur: {
-            storage: '500 MB',
-            bandwidth: false,
-            domain: false,
-            ssd: false,
-            ssl: false
-        }
-    },
-    {
-        package_id: 2,
-        name: 'Host Premium',
-        description: 'Fitur Hosting',
-        fitur: {
-            storage: '500 MB',
-            bandwidth: false,
-            domain: false,
-            ssd: false,
-            ssl: false
-        }
-    },
-    {
-        package_id: 3,
-        name: 'Host Exclusive',
-        description: 'Fitur Hosting',
-        fitur: {
-            storage: '500 MB',
-            bandwidth: false,
-            domain: false,
-            ssd: false,
-            ssl: false
-        }
-    },
-]
 
 const duration = [
     {
@@ -64,34 +29,63 @@ const duration = [
 ]
 
 const PackagesHost = ({ packageId }) => {
-    // const [hosting, setHosting] = useState([])
+    const [hostDetail, setHostDetail] = useState([])
 
-    const TrueIcon = () => {
-        return (
-            <div>
-                <CheckCircleIcon className="h-5 fill-teal-800" />
-            </div>
-        )
-    }
+    useEffect(() => {
+        async function getHostingDetail() {
+            const response = await axios.get(
+                `${API_URL}/package/getPackageById/${packageId}`);
+            setHostDetail(response.data.data);
+        };
+        getHostingDetail();
+    }, [packageId]);
 
-    const FalseIcon = () => {
-        return (
-            <div>
-                <XCircleIcon className="h-5 fill-teal-800" />
-            </div>
-        )
-    }
+    const [hostingList, setHostingList] = useState([]);
+
+    useEffect(() => {
+        async function getHostingList() {
+            const response = await axios.get(
+                `${API_URL}/package/getAllPackage`);
+            setHostingList(response.data.data);
+        };
+        getHostingList();
+    }, []);
 
     const [showModal, setShowModal] = useState(false);
-    const [data, setData] = useState('');
-    const [durations, setDuration] = useState('');
+    const [hosting, setHosting] = useState('');
+    const [durations, setDurations] = useState('');
+    const [price, setPrice] = useState('');
+    const [form, setForm] = useState('');
 
     const PickHost = (name) => {
-        setData(name)
+        setHosting(name)
     }
 
-    const PickDuration = (totalPrice) => {
-        setDuration(totalPrice)
+    const PickPrice = (event, name, totalPrice) => {
+        setDurations(name)
+        setPrice(totalPrice)
+    }
+
+    const inputRef = useRef(null);
+
+    const inputForm = () => {
+        setForm(inputRef.current.value)
+    }
+
+    const featureIcon = (element) => {
+        return (
+            <>
+                {element ?
+                    <div>
+                        <CheckCircleIcon className="h-5 fill-teal-800" />
+                    </div>
+                    :
+                    <div>
+                        <XCircleIcon className="h-5 fill-teal-800" />
+                    </div>
+                }
+            </>
+        )
     }
 
     return (
@@ -99,39 +93,57 @@ const PackagesHost = ({ packageId }) => {
             <h1 className="text-white font-bold text-xl">1. Pilih Paket Hosting</h1>
             <div className="flex">
                 <div className='flex w-2/3'>
-                    {packages.map((e) => {
+                    {hostingList.map((e) => {
                         return (
                             <div key={e.package_id} className='md:flex-1 rounded-lg m-5'>
-                                <Link onClick={() => PickHost(e.name)} className='flex flex-col bg-white shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
-                                    <div className='p-4 pb-24'>
-                                        <div className='h-1/6'>
-                                            <h2 className='font-bold text-[#2F414F] text-center mt-2'>{e.name}</h2>
-                                        </div>
-                                        <hr className="m-3" />
-                                        <div className="flex justify-start items-center">
-                                            {e.fitur.storage ? <TrueIcon /> : <FalseIcon />}
-                                            <div className="pl-1">
-                                                {e.fitur.storage}
+                                {e.package_id === hostDetail.package_id ?
+                                    <Link onSelect={() => PickHost(e.package_name)} className='flex flex-col bg-[#C7DAD4] shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
+                                        <div className='p-4 pb-24'>
+                                            <div className='h-1/6'>
+                                                <h2 className='font-bold text-[#2F414F] text-center mt-2'>{e.package_name}</h2>
+                                            </div>
+                                            <hr className="m-3" />
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.storage)}{e.features.storage} MB
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.unlimited_bandwidth)}{e.features.unlimited_bandwidth ? 'Unlimited Bandwidth' : 'No Unlimited Bandwidth'}
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.support_domain)}{e.features.support_domain ? 'Free Domain' : 'No Free Domain'}
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.support_SSD)}{e.features.support_SSD ? 'Free SSD' : 'No Free SSD'}
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.support_SSL)}{e.features.support_SSL ? 'Free SSL' : 'No Free SSL'}
                                             </div>
                                         </div>
-                                        <div className="flex justify-start">
-                                            {e.fitur.bandwidth ? <TrueIcon /> : <FalseIcon />}
-                                            <p className="pl-1" >Unlimited Bandwidth</p>
+                                    </Link>
+                                    :
+                                    <Link onSelect={() => PickHost(e.package_name)} className='flex flex-col bg-white shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
+                                        <div className='p-4 pb-24'>
+                                            <div className='h-1/6'>
+                                                <h2 className='font-bold text-[#2F414F] text-center mt-2'>{e.package_name}</h2>
+                                            </div>
+                                            <hr className="m-3" />
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.storage)}{e.features.storage} MB
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.unlimited_bandwidth)}{e.features.unlimited_bandwidth ? 'Unlimited Bandwidth' : 'No Unlimited Bandwidth'}
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.support_domain)}{e.features.support_domain ? 'Free Domain' : 'No Free Domain'}
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.support_SSD)}{e.features.support_SSD ? 'Free SSD' : 'No Free SSD'}
+                                            </div>
+                                            <div className="flex justify-start items-center gap-2">
+                                                {featureIcon(e.features.support_SSL)}{e.features.support_SSL ? 'Free SSL' : 'No Free SSL'}
+                                            </div>
                                         </div>
-                                        <div className="flex justify-start">
-                                            {e.fitur.domain ? <TrueIcon /> : <FalseIcon />}
-                                            <p className="pl-1">Free Domain</p>
-                                        </div>
-                                        <div className="flex justify-start">
-                                            {e.fitur.ssd ? <TrueIcon /> : <FalseIcon />}
-                                            <p className="pl-1">Free SSD</p>
-                                        </div>
-                                        <div className="flex justify-start">
-                                            {e.fitur.ssl ? <TrueIcon /> : <FalseIcon />}
-                                            <p className="pl-1">Free SSL</p>
-                                        </div>
-                                    </div>
-                                </Link>
+                                    </Link>}
                             </div>
                         )
                     })}
@@ -175,10 +187,14 @@ const PackagesHost = ({ packageId }) => {
 
                                 <div className="flex text-sm font-medium content-center text-center mx-auto pl-2 pt-4">
                                     <div className="w-1/4">
-                                        {data}
+                                        {hosting ? hosting : hostDetail.package_name}
                                     </div>
 
-                                    <div className="w-3/4">
+                                    <div className="w-2/4">
+                                    </div>
+
+                                    <div className="w-1/4">
+                                        {durations ? durations : '6 Bulan'}
                                     </div>
                                 </div>
 
@@ -193,7 +209,7 @@ const PackagesHost = ({ packageId }) => {
                                     </div>
 
                                     <div className="w-1/4">
-                                        {durations}
+                                        {price ? price : 'Rp 0.0/bulan'}
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +227,7 @@ const PackagesHost = ({ packageId }) => {
                                     <div
                                         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                                     >
-                                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                                        <div className="relative w-92 my-6 mx-auto max-w-3xl">
                                             {/*content*/}
                                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                                 {/*header*/}
@@ -230,29 +246,32 @@ const PackagesHost = ({ packageId }) => {
                                                 </div>
                                                 {/*body*/}
                                                 <div className="relative p-6 flex-auto">
-                                                    <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                                                        I always felt like I could do anything. That’s the main
-                                                        thing people are controlled by! Thoughts- their perception
-                                                        of themselves! They're slowed down by their perception of
-                                                        themselves. If you're taught you can’t do anything, you
-                                                        won’t do anything. I was taught I could do everything.
-                                                    </p>
+                                                    <div className="grid grid-cols-2 grid-rows-2 rounded-lg border divide-y p-4">
+                                                        <div className="p-2 font-medium">Paket Host</div>
+                                                        <div className="p-2">{hosting ? hosting : hostDetail.package_name}</div>
+                                                        <div className="p-2 font-medium">Durasi Host</div>
+                                                        <div className="p-2">{durations}</div>
+                                                        <div className="p-2 font-medium">Docker Image</div>
+                                                        <div className="p-2">{form}</div>
+                                                        <div className="p-2 font-medium">Total</div>
+                                                        <div className="p-2">{price}</div>
+                                                    </div>
                                                 </div>
                                                 {/*footer*/}
-                                                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                                <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 rounded-b">
+                                                    <button
+                                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                        type="button"
+                                                        onClick={() => setShowModal(false)}
+                                                    >
+                                                        Checkout
+                                                    </button>
                                                     <button
                                                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                         type="button"
                                                         onClick={() => setShowModal(false)}
                                                     >
                                                         Close
-                                                    </button>
-                                                    <button
-                                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                                        type="button"
-                                                        onClick={() => setShowModal(false)}
-                                                    >
-                                                        Save Changes
                                                     </button>
                                                 </div>
                                             </div>
@@ -273,7 +292,7 @@ const PackagesHost = ({ packageId }) => {
                     {duration.map((e) => {
                         return (
                             <div key={e.duration_id} className='md:flex-1 rounded-lg m-5'>
-                                <Link onClick={() => PickDuration(e.total_price)} className='flex flex-col bg-white shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
+                                <Link onClick={event => PickPrice(event, e.name, e.total_price)} className='flex flex-col bg-white shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
                                     <div className='h-1/3 bg-[#FFC210] p-3'>
                                         <h2 className='font-bold text-white text-center mt-2'>{e.name}</h2>
                                     </div>
@@ -291,16 +310,19 @@ const PackagesHost = ({ packageId }) => {
             </div>
 
             {/* Input Docker Image */}
-            <h1 className="text-white font-bold text-xl">3. Masukkan Docker Image</h1>
+            <h1 className="text-white font-bold text-xl">3. Masukkan Docker Hub & Image</h1>
             <div className="flex w-2/3">
                 <div className="md:flex-1 rounded-lg m-5">
                     <div className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden p-5">
                         <form action="">
-                            <div className="h-2/3 p-3">
-                                <input type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Docker Image" />
+                            <div className="h-2/3 p-2">
+                                <p className="p-3">1. Link Docker Hub</p> 
+                                <input id="docker_hub" name="docker_hub" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Link Docker Hub" />
+                                <p className="p-3">2. Docker Image</p> 
+                                <input ref={inputRef} id="docker_image" name="docker_image" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Docker Image" />
                             </div>
                             <div className="h-1/3 p-3">
-                                <button type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Cek Docker Image</button>
+                                <button onClick={inputForm} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Cek Docker Image</button>
                             </div>
                         </form>
                     </div>
