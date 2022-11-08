@@ -8,6 +8,7 @@ import Packages from "./pages/Packages/Packages";
 import Login from "./pages/Login/Login"
 import SignUp from "./pages/SignUp/SignUp"
 import Dashboard from "./pages/Dashboard/Dashboard";
+import DashboardInfo from "./pages/Dashboard/DashboardInfo";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/dashboardInfo" element={<DashboardInfo />}></Route>
       </Routes>
       <Footer />
     </Router>

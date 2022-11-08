@@ -35,7 +35,7 @@ const DashboardHome = () => {
                                         <h1 className="font-medium">{e.server}</h1>
                                         <h1 className="text-gray-400">Expires on {e.expired}</h1>
                                     </div>
-                                    <Link className="flex w-2/12 justify-center items-center bg-blue">
+                                    <Link to='/dashboardInfo' className="flex w-2/12 justify-center items-center bg-blue">
                                         <div className="bg-[#2F414F] text-white text-sm rounded-lg py-3 px-5">
                                             Manage
                                         </div>
