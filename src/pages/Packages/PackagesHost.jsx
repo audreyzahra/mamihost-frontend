@@ -55,7 +55,8 @@ const PackagesHost = ({ packageId }) => {
     const [hosting, setHosting] = useState('');
     const [durations, setDurations] = useState('');
     const [price, setPrice] = useState('');
-    const [form, setForm] = useState('');
+    const [dockerHub, setDockerHub] = useState('');
+    const [dockerImage, setDockerImage] = useState('');
 
     const PickHost = (name) => {
         setHosting(name)
@@ -66,10 +67,12 @@ const PackagesHost = ({ packageId }) => {
         setPrice(totalPrice)
     }
 
-    const inputRef = useRef(null);
+    const inputDockerImage = useRef(null);
+    const inputDockerHub = useRef(null);
 
     const inputForm = () => {
-        setForm(inputRef.current.value)
+        setDockerHub(inputDockerHub.current.value)
+        setDockerImage(inputDockerImage.current.value)
     }
 
     const featureIcon = (element) => {
@@ -251,8 +254,10 @@ const PackagesHost = ({ packageId }) => {
                                                         <div className="p-2">{hosting ? hosting : hostDetail.package_name}</div>
                                                         <div className="p-2 font-medium">Durasi Host</div>
                                                         <div className="p-2">{durations}</div>
+                                                        <div className="p-2 font-medium">Link Repository GitHub</div>
+                                                        <div className="p-2">{dockerHub}</div>
                                                         <div className="p-2 font-medium">Docker Image</div>
-                                                        <div className="p-2">{form}</div>
+                                                        <div className="p-2">{dockerImage}</div>
                                                         <div className="p-2 font-medium">Total</div>
                                                         <div className="p-2">{price}</div>
                                                     </div>
@@ -316,13 +321,25 @@ const PackagesHost = ({ packageId }) => {
                     <div className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden p-5">
                         <form action="">
                             <div className="h-2/3 p-2">
-                                <p className="p-3">1. Link Docker Hub</p> 
-                                <input id="docker_hub" name="docker_hub" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Link Docker Hub" />
-                                <p className="p-3">2. Docker Image</p> 
-                                <input ref={inputRef} id="docker_image" name="docker_image" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Docker Image" />
+                                <label className="block p-3">
+                                    <span>1. Link Repository GitHub <span className="text-gray-300">(Opsional)</span> </span>
+                                    <input ref={inputDockerHub} id="docker_hub" name="docker_hub" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Link Repository Hub" />
+                                </label>
+                                <label className="block p-3 gap-2">
+                                    <span>2. Docker Image</span>
+                                    <input ref={inputDockerImage} id="docker_image" name="docker_image" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Docker Image" />
+                                </label>
+                                <label className="p-3">
+                                    <span>3. Pilih Software Database</span>
+                                    <select id="countries" className="rounded bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option>Pilih Software Database</option>
+                                        <option value="mysql">MySQL</option>
+                                        <option value="postgres">PostgreSQL</option>
+                                    </select>
+                                </label>
                             </div>
                             <div className="h-1/3 p-3">
-                                <button onClick={inputForm} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Cek Docker Image</button>
+                                <button onClick={inputForm} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Input Docker</button>
                             </div>
                         </form>
                     </div>

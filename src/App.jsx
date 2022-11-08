@@ -22,8 +22,12 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/dashboardInfo" element={<DashboardInfo />}></Route>
+        <Route path="/dashboard">
+          <Route path=":email" element={<Dashboard />} />
+        </Route>
+        <Route path="/dashboardInfo">
+          <Route path=":hosting" element={<DashboardInfo />} />
+        </Route>
       </Routes>
       <Footer />
     </Router>

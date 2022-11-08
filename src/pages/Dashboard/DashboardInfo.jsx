@@ -1,59 +1,51 @@
-import { Link } from "react-router-dom";
+import moment from "moment"
 
-const info = [
-    {
-        id: 1,
-        name: 'Information',
-        server: '',
-        expired: '01-01-1990',
-    },
-]
+const hosting = {
+    "pod_name": "Database User1",
+    "pod_ip": "0.0.0.0",
+    "machine_status": "true",
+    "start_date": "2022-11-07T15:08:15.614Z",
+    "end_date": "2023-09-03T15:08:15.614Z"
+}
+
 const DashboardInfo = () => {
     return (
         <>
-            <div classNameName='md:flex-1 m-5'>
-                <div classNameName="flex flex-col gap-3 w-4/5 rounded-lg bg-white drop-shadow-md mx-auto p-6 overflow-hidden">
-                    <div classNameName="flex h-20 w-full gap-4">
-                        <div classNameName="flex flex-col w-9/12 gap-2 justify-center">
-                            <p>Detail Service</p>
-                            <table className="min-w-full">
-                                <thead className="border-b">
-                                    <tr>
-                                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                            Properties
-                                        </th>
-                                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                            Keterangan
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="border-b">
-                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Mark
-                                        </td>
-                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Otto
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b">
-                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Jacob
-                                        </td>
-                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Thornton
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b">
-                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Larry
-                                        </td>
-                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Wild
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <div className="dashboard antialiased">
+                <div className="container mx-auto p-8">
+                    <div className="grid grid-cols-2 md:mx-auto w-4/5 rounded-lg bg-white gap-4 py-5 px-8 m-5">
+                        <div className="col-span-2 font-semibold text-teal-500 border-b-2 py-3">
+                            Information
+                        </div>
+                        <div className="font-medium border-b-2 py-1">
+                            Pod Name
+                        </div>
+                        <div className="border-b-2 py-1">
+                            {hosting.pod_name}
+                        </div>
+                        <div className="font-medium border-b-2 py-1">
+                            IP Address
+                        </div>
+                        <div className="border-b-2 py-1">
+                            {hosting.pod_ip}
+                        </div>
+                        <div className="font-medium border-b-2 py-1">
+                            Status
+                        </div>
+                        <div className="border-b-2 py-1">
+                            {hosting.machine_status ? 'Running' : 'Not Running'}
+                        </div>
+                        <div className="font-medium border-b-2 py-1">
+                            Start Date
+                        </div>
+                        <div className="border-b-2 py-1">
+                            {moment(hosting.start_date).format('DD MMM YYYY HH:mm')}
+                        </div>
+                        <div className="font-medium border-b-2 py-1">
+                            End Date
+                        </div>
+                        <div className="border-b-2 py-1">
+                            {moment(hosting.end_date).format('DD MMM YYYY HH:mm')}
                         </div>
                     </div>
                 </div>
