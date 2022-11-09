@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../config";
+import { CloudIcon } from "@heroicons/react/solid";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -35,12 +36,12 @@ const Login = () => {
                     <div className="lg:flex lg:flex-wrap g-0">
                         <div>
                             <div className="md:p-12 md:mx-6">
-                                <div className="text-center">
-                                    <img className="mx-auto w-48" src="#" alt="logo" />
-                                    <h4 className="text-xl text-sky-50 font-semibold mt-1 mb-12 pb-1">Welcome to MamiHost</h4>
+                                <div className="flex flex-col text-center items-center justify-center h-1/3">
+                                    <CloudIcon className="h-12 fill-white" /> 
+                                    <h4 className="text-xl text-sky-50 font-semibold mt-1 mb-4 pb-1">Welcome to MamiHost</h4>
                                 </div>
-                                <form>
-                                    <p className="text-sky-50 mb-4">Please login to your account</p>
+                                <form className="flex flex-col h-2/3">
+                                    <p className="text-sky-50 mb-4 text-center">Please login to your account</p>
                                     <div className="mb-4">
                                         <label className="text-emerald-50 font-light" htmlFor="email">Email or Username</label>
                                         <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" className="backdrop-blur-sm bg-white/30 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="username" placeholder="Email or Username" />

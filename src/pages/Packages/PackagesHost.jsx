@@ -57,6 +57,7 @@ const PackagesHost = ({ packageId }) => {
     const [price, setPrice] = useState('');
     const [dockerHub, setDockerHub] = useState('');
     const [dockerImage, setDockerImage] = useState('');
+    const [dockerDB, setDockerDB] = useState('');
 
     const PickHost = (name) => {
         setHosting(name)
@@ -69,10 +70,63 @@ const PackagesHost = ({ packageId }) => {
 
     const inputDockerImage = useRef(null);
     const inputDockerHub = useRef(null);
+    const inputDockerDB = useRef(null);
 
-    const inputForm = () => {
+    const inputFormDB = () => {
         setDockerHub(inputDockerHub.current.value)
         setDockerImage(inputDockerImage.current.value)
+        setDockerDB(inputDockerDB.current.value == null ? null : inputDockerDB.current.value)
+    }
+
+    const inputFormWeb = () => {
+        setDockerHub(inputDockerHub.current.value)
+        setDockerImage(inputDockerImage.current.value)
+    }
+
+    const durationsConvert = (dur) => {
+        let duration = 0;
+        if (dur === '6 Bulan') {
+            return (
+                duration = 6 * 30
+            )
+        } else if (dur === '1 Tahun') {
+            return (
+                duration = 1 * 365
+            )
+        } else if (dur === '3 Tahun') {
+            return (
+                duration = 3 * 365
+            )
+        } else {
+            return (null)
+        }
+    }
+
+    const serviceType = hostDetail?.package_id === 1 ? 'DB' : 'WB'
+
+    const handleCheckout = () => {
+        const body = {
+            "user_email": "dzul123@gmail.com",
+            "duration": durationsConvert(durations),
+            "service_type": serviceType,
+            "service_image": dockerImage,
+            "db_dialect": dockerDB
+        }
+
+        console.log(body)
+
+        axios.post(`${API_URL}/service/createService`, {
+            headers: {
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZHp1bGZpa2FyMTIzIiwiaWF0IjoxNjY3ODg4ODE4fQ.WKKIWwHkJjizPPzfhZUn21VVbOrl1UkrbOu4YUU9NNo'
+            },
+            data: body
+        })
+            .then((response) => {
+                const email = response.data.user.email
+                console.log(response)
+            }, (error) => {
+                console.log(error);
+            });
     }
 
     const featureIcon = (element) => {
@@ -93,7 +147,7 @@ const PackagesHost = ({ packageId }) => {
 
     return (
         <>
-            <h1 className="text-white font-bold text-xl">1. Pilih Paket Hosting</h1>
+            <h1 className="text-white font-bold text-xl">1. Paket Hosting</h1>
             <div className="flex">
                 <div className='flex w-2/3'>
                     {hostingList.map((e) => {
@@ -258,6 +312,8 @@ const PackagesHost = ({ packageId }) => {
                                                         <div className="p-2">{dockerHub}</div>
                                                         <div className="p-2 font-medium">Docker Image</div>
                                                         <div className="p-2">{dockerImage}</div>
+                                                        <div className="p-2 font-medium">Software Database</div>
+                                                        <div className="p-2">{dockerDB ? dockerDB : '-'}</div>
                                                         <div className="p-2 font-medium">Total</div>
                                                         <div className="p-2">{price}</div>
                                                     </div>
@@ -267,7 +323,7 @@ const PackagesHost = ({ packageId }) => {
                                                     <button
                                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                         type="button"
-                                                        onClick={() => setShowModal(false)}
+                                                        onClick={handleCheckout}
                                                     >
                                                         Checkout
                                                     </button>
@@ -329,18 +385,31 @@ const PackagesHost = ({ packageId }) => {
                                     <span>2. Docker Image</span>
                                     <input ref={inputDockerImage} id="docker_image" name="docker_image" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Docker Image" />
                                 </label>
-                                <label className="p-3">
-                                    <span>3. Pilih Software Database</span>
-                                    <select id="countries" className="rounded bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option>Pilih Software Database</option>
-                                        <option value="mysql">MySQL</option>
-                                        <option value="postgres">PostgreSQL</option>
-                                    </select>
-                                </label>
+                                {hostDetail?.package_id === 1
+                                    ?
+                                    <label className="p-3">
+                                        <span>3. Pilih Software Database</span>
+                                        <select ref={inputDockerDB} id="countries" className="rounded bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <option>Pilih Software Database</option>
+                                            <option value="mysql">MySQL</option>
+                                            <option value="postgres">PostgreSQL</option>
+                                        </select>
+                                    </label>
+                                    :
+                                    ''
+                                }
                             </div>
-                            <div className="h-1/3 p-3">
-                                <button onClick={inputForm} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Input Docker</button>
-                            </div>
+                            {hostDetail?.package_id === 1
+                                ?
+                                <div className="h-1/3 p-3">
+                                    <button onClick={inputFormDB} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Input Docker</button>
+                                </div>
+                                :
+                                <div className="h-1/3 p-3">
+                                    <button onClick={inputFormWeb} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Input Docker</button>
+                                </div>
+                            }
+
                         </form>
                     </div>
                 </div>
