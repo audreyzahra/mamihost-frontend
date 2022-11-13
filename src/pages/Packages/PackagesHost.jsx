@@ -1,6 +1,6 @@
 import { React, useState, useRef } from "react"
 import axios from "axios"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { API_URL } from "../../config"
 import { CheckIcon } from "@heroicons/react/outline"
 import { CheckCircleIcon, XCircleIcon, ShoppingCartIcon } from "@heroicons/react/solid"
@@ -102,31 +102,43 @@ const PackagesHost = ({ packageId }) => {
         }
     }
 
+    const navigate = useNavigate()
+
     const serviceType = hostDetail?.package_id === 1 ? 'DB' : 'WB'
 
+    const [modalSuccess, setModalSuccess] = useState(false)
+    const token = JSON.parse(localStorage.getItem('UserDetails'))
+
     const handleCheckout = () => {
-        const body = {
-            "user_email": "dzul123@gmail.com",
-            "duration": durationsConvert(durations),
-            "service_type": serviceType,
-            "service_image": dockerImage,
-            "db_dialect": dockerDB
+
+        if (token) {
+            const data = {
+                "user_email": token.user.email,
+                "duration": durationsConvert(durations),
+                "service_type": serviceType,
+                "service_image": dockerImage,
+                "db_dialect": dockerDB
+            }
+
+            axios.post(`${API_URL}/service/createService`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token.accessToken}`
+                }
+            })
+                .then((response) => {
+                    console.log(response)
+                    if (response.data.message === 'success') {
+                        setShowModal(false)
+                        setModalSuccess(true)
+                    }
+                }, (error) => {
+                    console.log(error);
+                });
         }
 
-        console.log(body)
-
-        axios.post(`${API_URL}/service/createService`, {
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZHp1bGZpa2FyMTIzIiwiaWF0IjoxNjY3ODg4ODE4fQ.WKKIWwHkJjizPPzfhZUn21VVbOrl1UkrbOu4YUU9NNo'
-            },
-            data: body
-        })
-            .then((response) => {
-                const email = response.data.user.email
-                console.log(response)
-            }, (error) => {
-                console.log(error);
-            });
+        else {
+            navigate('/login')
+        }
     }
 
     const featureIcon = (element) => {
@@ -414,6 +426,35 @@ const PackagesHost = ({ packageId }) => {
                     </div>
                 </div>
             </div>
+
+            {/* Modal Success */}
+            {modalSuccess ? (
+                <>
+                    <div
+                        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                    >
+                        <div className="relative w-92 my-6 mx-auto max-w-3xl">
+                            {/*content*/}
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                {/*header*/}
+                                <div className="p-7 text-center justify-center items-center align-center">
+                                    <CheckCircleIcon className="mx-auto justify-center fill-green-500 h-20" />
+                                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Hosting Success !</h3>
+                                    <Link to={`/dashboard/${token.user.email}`} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                        Kembali ke Dashboard
+                                    </Link>
+                                    <button onClick={() => setModalSuccess(false)} type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Keluar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            )
+                :
+                null
+            }
+
         </>
     )
 }

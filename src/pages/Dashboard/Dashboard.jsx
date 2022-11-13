@@ -1,8 +1,9 @@
-import { useParams } from "react-router-dom"
+import { useParams, useLocation } from "react-router-dom"
 import DashboardHome from "./DashboardHome"
 
 const Dashboard = () => {
     const { email } = useParams();
+    // const data = useLocation();
 
     return (
         <>

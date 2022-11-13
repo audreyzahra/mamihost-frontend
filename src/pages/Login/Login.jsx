@@ -15,15 +15,18 @@ const Login = () => {
             username: username,
             password: password
         })
-        .then((response) => {
-            const email = response.data.user.email
-            console.log(response)
-            if (response.status === 200) {
-                navigate(`/dashboard/${email}`)
-            }
-        }, (error) => {
-            console.log(error);
-        });
+            .then((response) => {
+                if (response.status === 200) {
+                    const email = response?.data.user.email
+                    localStorage.setItem('UserDetails', JSON.stringify(response?.data))
+                    navigate(`/dashboard/${email}`)
+                }
+                else if (response.status === 400) {
+                    console.log(response?.data.message)
+                }
+            }, (error) => {
+                console.log(error.response.data.message);
+            });
     }
 
     return (
@@ -37,7 +40,7 @@ const Login = () => {
                         <div>
                             <div className="md:p-12 md:mx-6">
                                 <div className="flex flex-col text-center items-center justify-center h-1/3">
-                                    <CloudIcon className="h-12 fill-white" /> 
+                                    <CloudIcon className="h-12 fill-white" />
                                     <h4 className="text-xl text-sky-50 font-semibold mt-1 mb-4 pb-1">Welcome to MamiHost</h4>
                                 </div>
                                 <form className="flex flex-col h-2/3">

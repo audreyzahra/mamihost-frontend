@@ -22,10 +22,10 @@ const HostingList = () => {
         return (
             <>
                 {(element === 1) ?
-                    <DatabaseIcon className="m-2 p-2 h-20 fill-[#3894A3]" /> 
-                : (element === 2) ?
-                 <ServerIcon className="m-2 p-2 h-20 fill-[#3894A3]" />
-                : ''
+                    <DatabaseIcon className="m-2 p-2 h-20 fill-[#3894A3]" />
+                    : (element === 2) ?
+                        <ServerIcon className="m-2 p-2 h-20 fill-[#3894A3]" />
+                        : ''
                 }
             </>
         )
@@ -130,13 +130,11 @@ const HostingList = () => {
                     </div>
                     {hostingList.map((e) => {
                         return (
-                            <>
-                                <div key={e.package_id} className="flex justify-center p-2">
-                                    <Link to={`/packages/${e.package_id}`} className="bg-[#FFC210] inline-block m-2 px-5 py-2 rounded-full font-medium hover:bg-yellow-500 hover:text-white">
-                                        {e.package_name}
-                                    </Link>
-                                </div>
-                            </>
+                            <div key={e.package_id} className="flex justify-center p-2">
+                                <Link to={`/packages/${e.package_id}`} className="bg-[#FFC210] inline-block m-2 px-5 py-2 rounded-full font-medium hover:bg-yellow-500 hover:text-white">
+                                    {e.package_name}
+                                </Link>
+                            </div>
                         )
                     })}
 
@@ -145,11 +143,9 @@ const HostingList = () => {
                     { /*Harga*/}
                     {hostingList.map((e) => {
                         return (
-                            <>
-                                <div key={e.package_id} className="flex justify-center">
-                                    Rp {e.package_price}.0/bulan
-                                </div>
-                            </>
+                            <div key={e.package_id} className="flex justify-center">
+                                Rp {e.package_price}.0/bulan
+                            </div>
                         )
                     })}
 
@@ -179,17 +175,15 @@ const HostingList = () => {
 
                     {hostingList.map((e) => {
                         return (
-                            <>
-                                <div key={e.package_id} className="row-span-5 mx-5 my-3 divide-y divide-slate-300">
-                                    <div className="flex bg-[#C7DAD4]/50 justify-center p-3 text-gray-400">
-                                        {e.features.storage} MB
-                                    </div>
-                                    {featureIcon(e.features.bandwidth)}
-                                    {featureIcon(e.features.support_domain)}
-                                    {featureIcon(e.features.support_SSD)}
-                                    {featureIcon(e.features.support_SSL)}
+                            <div key={e.package_id} className="row-span-5 mx-5 my-3 divide-y divide-slate-300">
+                                <div className="flex bg-[#C7DAD4]/50 justify-center p-3 text-gray-400">
+                                    {e.features.storage} MB
                                 </div>
-                            </>
+                                {featureIcon(e.features.bandwidth)}
+                                {featureIcon(e.features.support_domain)}
+                                {featureIcon(e.features.support_SSD)}
+                                {featureIcon(e.features.support_SSL)}
+                            </div>
                         )
                     })}
                 </div>

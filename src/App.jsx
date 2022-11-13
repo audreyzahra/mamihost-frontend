@@ -26,7 +26,7 @@ function App() {
           <Route path=":email" element={<Dashboard />} />
         </Route>
         <Route path="/dashboardInfo">
-          <Route path=":hosting" element={<DashboardInfo />} />
+          <Route path=":userId" element={<DashboardInfo />} />
         </Route>
       </Routes>
       <Footer />
