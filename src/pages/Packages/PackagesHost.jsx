@@ -126,7 +126,6 @@ const PackagesHost = ({ packageId }) => {
                 }
             })
                 .then((response) => {
-                    console.log(response)
                     if (response.data.message === 'success') {
                         setShowModal(false)
                         setModalSuccess(true)
@@ -390,11 +389,14 @@ const PackagesHost = ({ packageId }) => {
                         <form action="">
                             <div className="h-2/3 p-2">
                                 <label className="block p-3">
-                                    <span>1. Link Repository GitHub <span className="text-gray-300">(Opsional)</span> </span>
+                                    <span>1. Link Repository GitHub <span className="text-gray-400">(Opsional)</span> </span>
                                     <input ref={inputDockerHub} id="docker_hub" name="docker_hub" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Link Repository Hub" />
                                 </label>
-                                <label className="block p-3 gap-2">
+                                <label className="flex flex-col block p-3 gap-2">
                                     <span>2. Docker Image</span>
+                                    <span className="text-red-400 text-sm">*Pastikan Anda sudah membuat Docker Image untuk aplikasi Anda dan melakukan upload ke dalam Docker Hub</span>
+                                    <span className="text-sm">Dokumentasi Membuat Docker File : </span>
+                                    <a className="text-blue-700 text-sm underline" href='https://docs.docker.com/engine/reference/builder/'>https://docs.docker.com/engine/reference/builder/</a>
                                     <input ref={inputDockerImage} id="docker_image" name="docker_image" type="text" className="w-full border-2 rounded-full p-3" placeholder="Masukkan Docker Image" />
                                 </label>
                                 {hostDetail?.package_id === 1
@@ -413,11 +415,11 @@ const PackagesHost = ({ packageId }) => {
                             </div>
                             {hostDetail?.package_id === 1
                                 ?
-                                <div className="h-1/3 p-3">
+                                <div className="h-1/3 p-2">
                                     <button onClick={inputFormDB} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Input Docker</button>
                                 </div>
                                 :
-                                <div className="h-1/3 p-3">
+                                <div className="h-1/3 p-2">
                                     <button onClick={inputFormWeb} type="button" className="rounded-full border-2 border-[#3894A3] text-[#3894A3] hover:bg-[#3894A3] hover:text-white p-3">Input Docker</button>
                                 </div>
                             }

@@ -3,10 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../config";
 import { CloudIcon } from "@heroicons/react/solid";
+import { ExclamationCircleIcon } from "@heroicons/react/outline";
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -21,11 +25,10 @@ const Login = () => {
                     localStorage.setItem('UserDetails', JSON.stringify(response?.data))
                     navigate(`/dashboard/${email}`)
                 }
-                else if (response.status === 400) {
-                    console.log(response?.data.message)
-                }
             }, (error) => {
-                console.log(error.response.data.message);
+                console.log(error);
+                setErrorMessage(error.response.data.message)
+                setShowModal(true)
             });
     }
 
@@ -46,7 +49,7 @@ const Login = () => {
                                 <form className="flex flex-col h-2/3">
                                     <p className="text-sky-50 mb-4 text-center">Please login to your account</p>
                                     <div className="mb-4">
-                                        <label className="text-emerald-50 font-light" htmlFor="email">Email or Username</label>
+                                        <label className="text-emerald-50 font-light" htmlFor="email">Username</label>
                                         <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" className="backdrop-blur-sm bg-white/30 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="username" placeholder="Email or Username" />
                                     </div>
                                     <div className="mb-4">
@@ -79,6 +82,30 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+
+            {showModal ? (
+                <>
+                    <div
+                        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                    >
+                        <div className="relative w-92 my-6 mx-auto max-w-3xl">
+                            {/*content*/}
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                {/*header*/}
+                                <div className="p-7 text-center justify-center items-center align-center">
+                                    <ExclamationCircleIcon className="mx-auto h-16" />
+                                    <h3 className="m-5 text-lg font-normal text-gray-500 dark:text-gray-400">{errorMessage}</h3>
+                                    <button onClick={() => setShowModal(false)} type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Keluar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            )
+                :
+                null
+            }
         </>
     )
 }
