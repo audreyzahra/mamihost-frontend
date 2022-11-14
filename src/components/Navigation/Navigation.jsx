@@ -4,24 +4,7 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 
 import { Link } from "react-router-dom";
-
-const hosting = [
-  {
-    name: "Hosting 1",
-    description: "MamiHost menyediakan Hosting Paket 1",
-    href: "#hosting"
-  },
-  {
-    name: "Kelapa",
-    description: "Kelapa mempunyai penduduk terbanyak",
-    href: "#hosting"
-  },
-  {
-    name: "Sabira",
-    description: "Sabiran merupakan pulau yang unik",
-    href: "#hosting"
-  },
-];
+import { useState } from "react";
 
 const fitur = [
   {
@@ -35,21 +18,39 @@ const fitur = [
 ];
 
 const Login = () => {
+  const [token, setToken] = useState('');
+
+  const getToken = localStorage.getItem('UserDetails');
+
+  const handleLogout = () => {
+    setToken(localStorage.removeItem('UserDetails'))
+  }
+
   return (
-    <div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
-      <Link
-        to='/login'
-        className='bg-teal-600 px-7 py-2 whitespace-nowrap text-nav-1 font-medium text-white hover:text-gray-900 rounded-3xl'
-      >
-        Login
-      </Link>
-    </div>
+    <>
+      {getToken && token !== null ?
+        <div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
+          <Link
+            onClick={handleLogout}
+            to='/login'
+            className='bg-teal-600 px-7 py-2 whitespace-nowrap text-nav-1 font-medium text-white hover:text-gray-900 rounded-3xl'
+          >
+            Logout
+          </Link>
+        </div>
+        :
+        <div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
+          <Link
+            to='/login'
+            className='bg-teal-600 px-7 py-2 whitespace-nowrap text-nav-1 font-medium text-white hover:text-gray-900 rounded-3xl'
+          >
+            Login
+          </Link>
+        </div>
+      }
+    </>
   );
 };
-
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(" ");
-// }
 
 const Navigation = () => {
   return (

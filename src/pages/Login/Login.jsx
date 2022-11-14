@@ -24,6 +24,7 @@ const Login = () => {
                     const email = response?.data.user.email
                     localStorage.setItem('UserDetails', JSON.stringify(response?.data))
                     navigate(`/dashboard/${email}`)
+                    window.location.reload(false);
                 }
             }, (error) => {
                 console.log(error);

@@ -52,16 +52,11 @@ const PackagesHost = ({ packageId }) => {
     }, []);
 
     const [showModal, setShowModal] = useState(false);
-    const [hosting, setHosting] = useState('');
     const [durations, setDurations] = useState('');
     const [price, setPrice] = useState('');
     const [dockerHub, setDockerHub] = useState('');
     const [dockerImage, setDockerImage] = useState('');
     const [dockerDB, setDockerDB] = useState('');
-
-    const PickHost = (name) => {
-        setHosting(name)
-    }
 
     const PickPrice = (event, name, totalPrice) => {
         setDurations(name)
@@ -165,7 +160,7 @@ const PackagesHost = ({ packageId }) => {
                         return (
                             <div key={e?.package_id} className='md:flex-1 rounded-lg m-5'>
                                 {e?.package_id === hostDetail.package_id ?
-                                    <Link onSelect={() => PickHost(e?.package_name)} className='flex flex-col bg-[#C7DAD4] shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
+                                    <div className='flex flex-col bg-[#C7DAD4] shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
                                         <div className='p-4 pb-24'>
                                             <div className='h-1/6'>
                                                 <h2 className='font-bold text-[#2F414F] text-center mt-2'>{e?.package_name}</h2>
@@ -187,9 +182,9 @@ const PackagesHost = ({ packageId }) => {
                                                 {featureIcon(e?.features.support_SSL)}{e?.features.support_SSL ? 'Free SSL' : 'No Free SSL'}
                                             </div>
                                         </div>
-                                    </Link>
+                                    </div>
                                     :
-                                    <Link onSelect={() => PickHost(e?.package_name)} className='flex flex-col bg-white shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
+                                    <div className='flex flex-col bg-white shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
                                         <div className='p-4 pb-24'>
                                             <div className='h-1/6'>
                                                 <h2 className='font-bold text-[#2F414F] text-center mt-2'>{e?.package_name}</h2>
@@ -211,7 +206,7 @@ const PackagesHost = ({ packageId }) => {
                                                 {featureIcon(e?.features.support_SSL)}{e?.features.support_SSL ? 'Free SSL' : 'No Free SSL'}
                                             </div>
                                         </div>
-                                    </Link>}
+                                    </div>}
                             </div>
                         )
                     })}
@@ -255,7 +250,7 @@ const PackagesHost = ({ packageId }) => {
 
                                 <div className="flex text-sm font-medium content-center text-center mx-auto pl-2 pt-4">
                                     <div className="w-1/4">
-                                        {hosting ? hosting : hostDetail.package_name}
+                                        {hostDetail.package_name}
                                     </div>
 
                                     <div className="w-2/4">
@@ -316,7 +311,7 @@ const PackagesHost = ({ packageId }) => {
                                                 <div className="relative p-6 flex-auto">
                                                     <div className="grid grid-cols-2 grid-rows-2 rounded-lg border divide-y p-4">
                                                         <div className="p-2 font-medium">Paket Host</div>
-                                                        <div className="p-2">{hosting ? hosting : hostDetail.package_name}</div>
+                                                        <div className="p-2">{hostDetail.package_name}</div>
                                                         <div className="p-2 font-medium">Durasi Host</div>
                                                         <div className="p-2">{durations}</div>
                                                         <div className="p-2 font-medium">Link Repository GitHub</div>
@@ -364,7 +359,7 @@ const PackagesHost = ({ packageId }) => {
                     {duration.map((e) => {
                         return (
                             <div key={e?.duration_id} className='md:flex-1 rounded-lg m-5'>
-                                <Link onClick={event => PickPrice(event, e?.name, e?.total_price)} className='flex flex-col bg-white shadow-md hover:shadow-xl focus:bg-[#C7DAD4] rounded-lg overflow-hidden'>
+                                <Link onClick={event => PickPrice(event, e?.name, e?.total_price)} className='flex flex-col bg-white shadow-md focus:bg-[#C7DAD4] rounded-lg overflow-hidden hover:shadow-2xl hover:duration-500 hover:scale-110'>
                                     <div className='h-1/3 bg-[#FFC210] p-3'>
                                         <h2 className='font-bold text-white text-center mt-2'>{e?.name}</h2>
                                     </div>
