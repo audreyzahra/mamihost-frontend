@@ -8,12 +8,12 @@ import { useState } from "react";
 
 const fitur = [
   {
-    name: "Hosting",
-    to: "/hosting-list",
+    name: "Website",
+    to: "/packages/2",
   },
   {
     name: "Database",
-    to: "/database-list",
+    to: "/packages/1",
   }
 ];
 
