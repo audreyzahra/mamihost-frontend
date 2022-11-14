@@ -283,10 +283,10 @@ const PackagesHost = ({ packageId }) => {
                             </div>
 
                             {/* button checkout */}
-                            <button type="button" onClick={() => setShowModal(true)} className="w-full h-3/6 bg-[#FFC210] shadow-md hover:shadow-xl rounded-full overflow-hidden justify-center p-4">
+                            <button type="button" onClick={() => setShowModal(true)} className="w-full h-3/6 bg-[#FFC210] shadow-md hover:shadow-xl rounded-full overflow-hidden justify-center p-4 text-white fill-white hover:bg-yellow-500 hover:fill-black hover:text-black">
                                 <div className="flex justify-center items-center">
-                                    <ShoppingCartIcon className="h-5 fill-white" />
-                                    <h6 className="text-white font-medium">Checkout</h6>
+                                    <ShoppingCartIcon className="h-5" />
+                                    <h6 className="font-medium">Checkout</h6>
                                 </div>
                             </button>
 

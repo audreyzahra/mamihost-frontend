@@ -7,7 +7,7 @@ const DashboardInfoDetail = ({ userId }) => {
     const [hosting, setHosting] = useState([])
 
     useEffect(() => {
-        async function getHostingDetail () {
+        async function getHostingDetail() {
             const token = JSON.parse(localStorage.getItem('UserDetails'))
             const response = await axios.get(`${API_URL}/service/hostedPods/${userId}`, {
                 headers: {
@@ -25,67 +25,73 @@ const DashboardInfoDetail = ({ userId }) => {
                 <div className="container mx-auto p-8">
                     <div className="grid grid-cols-2 md:mx-auto w-4/5 rounded-lg bg-white gap-4 py-5 px-8 m-5">
                         <div className="col-span-2 font-semibold text-teal-500 border-b-2 py-3">
-                            Information
+                            <p>Information</p>
                         </div>
                         <div className="font-medium border-b-2 py-1">
-                            Pod Name
+                            <p>Pod Name</p>
                         </div>
                         <div className="border-b-2 py-1">
-                            {hosting?.pod_name}
+                            <p>{hosting?.pod_name}</p>
                         </div>
                         <div className="font-medium border-b-2 py-1">
-                            IP Address
+                            <p>IP Address</p>
                         </div>
                         <div className="border-b-2 py-1">
-                            {hosting?.pod_ip}
+                            <p>{hosting?.pod_ip}</p>
                         </div>
                         <div className="font-medium border-b-2 py-1">
-                            Link Git Repository
+                            <p>Link Git Repository</p>
                         </div>
                         <div className="border-b-2 py-1">
-                            {hosting?.git_repository ? hosting?.git_repository : 'None'}
+                            <p>{hosting?.git_repository ? hosting?.git_repository : 'None'}</p>
                         </div>
                         <div className="font-medium border-b-2 py-1">
-                            Status
+                            <p>Status</p>
                         </div>
-                        <div className="border-b-2 py-1">
-                            {hosting?.machine_status ? 'Running' : 'Not Running'}
-                        </div>
+                        {hosting?.machine_status ?
+                            <div className="flex border-b-2 py-1">
+                                <p className="bg-green-200 text-emerald-900 rounded-full py-1 px-2">Running</p>
+                            </div>
+                            :
+                            <div className="flex border-b-2 py-1">
+                                <p className="bg-red-300 text-rose-900 rounded-full py-1 px-2">Not Running</p>
+                            </div>
+                        }
                         <div className="font-medium border-b-2 py-1">
-                            Service Image
+                            <p>Service Image</p>
                         </div>
                         <div className="border-b-2 py-1">
-                            {hosting?.service_image}
+                            <p>{hosting?.service_image}</p>
                         </div>
                         {hosting?.service_type === 'DB' ?
-                        <>
-                        <div className="font-medium border-b-2 py-1">
-                                Dialect
-                            </div>
-                            <div className="border-b-2 py-1">
-                                {hosting?.db_dialect}
-                            </div>
-                        </>
+                            <>
+                                <div className="font-medium border-b-2 py-1">
+                                    <p>Dialect</p>
+                                </div>
+                                <div className="flex border-b-2 py-1">
+                                    <p className="bg-green-200 text-emerald-900 rounded-full py-1 px-2">{hosting?.db_dialect}</p>
+                                </div>
+                            </>
                             :
                             null
                         }
                         <div className="font-medium border-b-2 py-1">
-                            Duration
+                            <p>Duration</p>
                         </div>
                         <div className="border-b-2 py-1">
-                            {hosting?.duration + ' days'}
+                            <p>{hosting?.duration + ' days'}</p>
                         </div>
                         <div className="font-medium border-b-2 py-1">
-                            Start Date
+                            <p>Start Date</p>
                         </div>
                         <div className="border-b-2 py-1">
-                            {moment(hosting?.start_date).format('DD MMM YYYY HH:mm')}
+                            <p>{moment(hosting?.start_date).format('DD MMM YYYY HH:mm')}</p>
                         </div>
                         <div className="font-medium border-b-2 py-1">
-                            End Date
+                            <p>End Date</p>
                         </div>
                         <div className="border-b-2 py-1">
-                            {moment(hosting?.end_date).format('DD MMM YYYY HH:mm')}
+                            <p>{moment(hosting?.end_date).format('DD MMM YYYY HH:mm')}</p>
                         </div>
                     </div>
                 </div>
