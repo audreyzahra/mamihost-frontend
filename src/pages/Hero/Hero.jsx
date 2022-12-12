@@ -1,9 +1,32 @@
+import React, { useRef, useEffect } from "react";
+
+
 const Hero = () => {
+    const videoEl = useRef(null);
+
+    const attemptPlay = () => {
+        videoEl &&
+            videoEl.current &&
+            videoEl.current.play().catch((error) => {
+                console.error("Error attempting to play", error);
+            });
+    };
+
+    useEffect(() => {
+        attemptPlay();
+    }, []);
+
     return (
         <>
-           <div className="relative mx-auto max-w-full w-full h-fit">
-                <img className='w-full shadow-lg h-min max-h-screen' src="https://mamihost-bucket.s3.ap-southeast-1.amazonaws.com/Hero/hero-landing-page.jpg" alt="Hero Landing Page" />
-           </div>
+            <div className="relative mx-auto max-w-full w-full h-fit">
+                <video
+                    loop
+                    muted
+                    className='w-full'
+                    src="https://mamihost-bucket.s3.ap-southeast-1.amazonaws.com/Hero/Mamihost+Video+Marketing+(cut).mp4"
+                    alt="Hero Landing Page"
+                    ref={videoEl} />
+            </div>
         </>
     )
 }

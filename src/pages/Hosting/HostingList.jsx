@@ -59,7 +59,7 @@ const HostingList = () => {
 
     return (
         <>
-            <div className='text-center font-title text-title-section text-white font-bold xl:text-2xl py-3'>
+            <div className='text-center font-title text-title-section text-white font-bold xl:text-3xl py-3'>
                 Paket Host
             </div>
 

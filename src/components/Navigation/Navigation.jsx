@@ -86,7 +86,8 @@ const Navigation = () => {
     <>
       <Popover className='bg-white sticky top-0 z-50'>
         <div className=' max-w-7xl mx-auto px-4 sm:px-6'>
-          <div className='flex justify-between items-center border-b-2 border-gray-100 py-4 md:justify-start md:space-x-10'>
+          <div className='flex justify-between items-center border-b-2 border-gray-100 py-4 md:justify-start md:space-x-7'>
+            <img src="https://mamihost-bucket.s3.ap-southeast-1.amazonaws.com/Logo/logo-title.png" alt="" className="h-8"/>
             <Link
               to='/'
               className='font-title text-teal-700 font-semibold md:flex-1'

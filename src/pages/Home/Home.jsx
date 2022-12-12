@@ -8,7 +8,7 @@ const Home = () => {
                 <Hero />
                 <div className="flex flex-col py-5 text-white">
                     <div className="flex flex-col gap-2 justify-center items-center">
-                        <h1 className="text-2xl font-bold">MamiHost</h1>
+                        <h1 className="text-3xl font-bold">MamiHost</h1>
                         <p>Layanan Hosting Terpercaya dan Termurah se-Indonesia</p>
                     </div>
                 </div>
